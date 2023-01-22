@@ -39,9 +39,7 @@ func (cli *CLI) inspect(opts Options, args []string) int {
 			if opts.Chdir != "" && targetDir != "." {
 				return fmt.Errorf("Cannot use --chdir and directory argument at the same time")
 			}
-			if opts.Recursive && (targetDir != "." || len(filterFiles) > 0) {
-				return fmt.Errorf("Cannot use --recursive and arguments at the same time")
-			}
+
 			if len(opts.Filter) > 0 && (targetDir != "." || len(filterFiles) > 0) {
 				return fmt.Errorf("Cannot use --filter and arguments at the same time")
 			}

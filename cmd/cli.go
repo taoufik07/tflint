@@ -132,15 +132,15 @@ func unknownOptionHandler(option string, arg flags.SplitArgument, args []string)
 }
 
 func findWorkingDirs(opts Options) ([]string, error) {
-	if opts.Recursive && opts.Chdir != "" {
-		return []string{}, errors.New("cannot use --recursive and --chdir at the same time")
-	}
-
 	workingDirs := []string{}
 
 	if opts.Recursive {
-		// NOTE: The target directory is always the current directory in recursive mode
-		err := filepath.WalkDir(".", func(path string, d os.DirEntry, err error) error {
+		curDir := "."
+		if opts.Chdir != "" {
+			curDir = opts.Chdir
+		}
+
+		err := filepath.WalkDir(curDir, func(path string, d os.DirEntry, err error) error {
 			if err != nil {
 				return err
 			}
